@@ -26,3 +26,4 @@ dist-ssr
 # Environment varibles 
 *.env
 /backend/ .env
+backend/.env
