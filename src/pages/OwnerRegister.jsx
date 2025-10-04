@@ -67,11 +67,11 @@ const OwnerRegister = () => {
     }
 
     try {
-      // Convert numeric fields to numbers
       const payload = {
         ...formData,
         parking_slots: Number(formData.parking_slots),
         slot_price: Number(formData.slot_price),
+        phone: formData.phone,
       };
 
       const res = await axios.post(
@@ -167,6 +167,7 @@ const OwnerRegister = () => {
             required
           />
 
+          {/* Address */}
           <textarea
             name="address"
             placeholder="Home Address"
@@ -177,6 +178,7 @@ const OwnerRegister = () => {
             required
           />
 
+          {/* Parking Address */}
           <textarea
             name="parking_address"
             placeholder="Parking Address"
@@ -187,6 +189,7 @@ const OwnerRegister = () => {
             required
           />
 
+          {/* Parking Slots */}
           <input
             type="number"
             name="parking_slots"
@@ -197,6 +200,7 @@ const OwnerRegister = () => {
             required
           />
 
+          {/* Slot Price */}
           <input
             type="number"
             name="slot_price"
@@ -207,6 +211,7 @@ const OwnerRegister = () => {
             required
           />
 
+          {/* Vehicle Type */}
           <select
             name="vehicle_type"
             value={formData.vehicle_type}
@@ -221,6 +226,7 @@ const OwnerRegister = () => {
             <option value="Bus">Bus</option>
           </select>
 
+          {/* Password */}
           <input
             type="password"
             name="password"

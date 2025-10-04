@@ -25,17 +25,21 @@ const protect = async (req, res, next) => {
 // Owner Registration
 router.post("/register", async (req, res) => {
   try {
-    const { name, email, password, parking_slots, slot_price, vehicle_type, parking_address } = req.body;
+    const { name, email, password, phone, parking_slots, slot_price, vehicle_type, parking_address } = req.body;
 
+    // Check if owner already exists
     const existingOwner = await Owner.findOne({ email });
     if (existingOwner) return res.status(400).json({ success: false, message: "Owner already exists" });
 
+    // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    // Create owner in DB
     const owner = await Owner.create({
       name,
       email,
       password: hashedPassword,
+      phone,                // <--- Added phone here
       parking_slots,
       slot_price,
       vehicle_type,

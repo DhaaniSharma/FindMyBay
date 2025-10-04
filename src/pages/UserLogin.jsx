@@ -1,11 +1,14 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const UserLogin = () => {
   const [loginData, setLoginData] = useState({
-    username: "",
+    email: "",
     password: "",
   });
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   // Handle input changes
   const handleChange = (e) => {
@@ -13,33 +16,48 @@ const UserLogin = () => {
   };
 
   // Handle login submit
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("User Login Data:", loginData);
-    alert("Login successful (simulation)!");
+    setLoading(true);
+
+    try {
+      const res = await axios.post("http://localhost:5001/api/users/login", loginData);
+
+      if (res.data.success) {
+        // Save JWT token and user data in localStorage
+        localStorage.setItem("userToken", res.data.token);
+        localStorage.setItem("userDetails", JSON.stringify(res.data.user));
+
+        alert("Login successful!");
+        navigate("/user-dashboard");
+      } else {
+        alert(res.data.message || "Invalid email or password");
+      }
+    } catch (err) {
+      console.error(err);
+      alert(err.response?.data?.message || "Login failed");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-200 p-6">
-      {/* Greyish Login Box */}
       <div className="bg-gray-100 shadow-xl rounded-2xl p-8 w-full max-w-md">
         <h1 className="text-3xl font-bold text-center text-blue-900 mb-6">
           User Login
         </h1>
 
         <form onSubmit={handleSubmit} className="space-y-5">
-          {/* Username */}
           <input
-            type="text"
-            name="username"
-            placeholder="Username / Email / Phone"
-            value={loginData.username}
+            type="email"
+            name="email"
+            placeholder="Email"
+            value={loginData.email}
             onChange={handleChange}
             className="w-full p-3 border border-gray-400 rounded-lg focus:ring-2 focus:ring-blue-700"
             required
           />
-
-          {/* Password */}
           <input
             type="password"
             name="password"
@@ -49,17 +67,15 @@ const UserLogin = () => {
             className="w-full p-3 border border-gray-400 rounded-lg focus:ring-2 focus:ring-blue-700"
             required
           />
-
-          {/* Submit */}
           <button
             type="submit"
-            className="w-full py-3 bg-blue-900 text-white font-semibold rounded-lg hover:bg-blue-800"
+            className={`w-full py-3 text-white font-semibold rounded-lg ${loading ? "bg-gray-400 cursor-not-allowed" : "bg-blue-900 hover:bg-blue-800"}`}
+            disabled={loading}
           >
-            Log In
+            {loading ? "Logging in..." : "Log In"}
           </button>
         </form>
 
-        {/* Register Redirect */}
         <p className="text-center mt-4">
           Don’t have an account?{" "}
           <Link
@@ -70,7 +86,6 @@ const UserLogin = () => {
           </Link>
         </p>
 
-        {/* Back to Home */}
         <div className="text-center mt-4">
           <Link
             to="/"
