@@ -14,17 +14,23 @@ dotenv.config();
 connectDB();
 
 const app = express();
-app.use(cors({ origin: "http://localhost:5173" })); // front-end origin (Vite)
+
+// --- LOGGING ADDED ---
+app.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] INCOMING REQUEST: ${req.method} ${req.originalUrl}`);
+  next();
+});
+// --- END LOGGING ---
+
+app.use(cors({ origin: "http://localhost:5173" })); // Using your friend's original, correct code
 app.use(bodyParser.json());
 
 app.get("/", (req, res) => res.send("API running"));
 
-// API routes
 app.use("/api/users", userRoutes);
 app.use("/api/owners", ownerRoutes);
 app.use("/api/otp", otpRoutes);
 
-// Start server and connect MongoDB
 const PORT = process.env.PORT || 5001;
-mongoose.set('strictQuery', false); // optional, avoid deprecation warning
+mongoose.set('strictQuery', false);
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

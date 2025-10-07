@@ -2,10 +2,13 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage.jsx";
 import AboutUs from "./pages/AboutUs.jsx";
-import UserLogin from "./pages/UserLogin.jsx"; // 👈 Import UserLogin page
+import UserLogin from "./pages/UserLogin.jsx";
 import Register from "./pages/Register.jsx";
 import OwnerRegister from "./pages/OwnerRegister.jsx";
 import OwnerDashboard from "./pages/OwnerDashboard.jsx";
+
+// --- ADD THIS LINE ---
+import SearchResultsPage from "./pages/SearchResultsPage.jsx";
 
 function App() {
   return (
@@ -13,10 +16,13 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/about-us" element={<AboutUs />} />
-        <Route path="/login" element={<UserLogin />} /> 
-        <Route path="/register" element={<Register />} /> 
+        <Route path="/login" element={<UserLogin />} />
+        <Route path="/register" element={<Register />} />
         <Route path="/owner-register" element={<OwnerRegister />} />
         <Route path="/owner-dashboard" element={<OwnerDashboard />} />
+        
+        {/* --- AND ADD THIS LINE --- */}
+        <Route path="/search-results" element={<SearchResultsPage />} />
       </Routes>
     </Router>
   );
