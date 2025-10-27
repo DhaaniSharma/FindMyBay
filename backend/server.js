@@ -34,3 +34,6 @@ app.use("/api/otp", otpRoutes);
 const PORT = process.env.PORT || 5001;
 mongoose.set('strictQuery', false);
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+
+hello hello 
