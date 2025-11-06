@@ -18,7 +18,7 @@ Drivers waste time and fuel searching for available spaces, while owners struggl
 - 🅿️ Allows owners to **list, manage, and earn** from their parking spots.  
 - 🔒 Uses **OTP verification** and **JWT authentication** for secure logins.  
 - 🗺 Integrates **Google Maps API** for destination-based search.  
-- 📱 Works on desktop & mobile with a sleek responsive UI.
+- 📱 Works on desktop & mobile with a sleek responsive UI.  
 
 ---
 
